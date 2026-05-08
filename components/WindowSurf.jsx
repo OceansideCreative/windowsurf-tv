@@ -16,7 +16,7 @@ const STREAMS = [
   { id: 11, title: "LAX Plane Spotting", videoId: "LRwNFvf5bqo", category: "airports", location: "Los Angeles, CA", vibe: "chill" },
   { id: 12, title: "Heathrow Airport Live", videoId: "SgpSqiMGPiQ", category: "airports", location: "London, UK", vibe: "chill" },
   { id: 13, title: "Tokyo Narita Live", videoId: "IkwuwL0k9dE", category: "airports", location: "Tokyo, Japan", vibe: "zen" },
-  { id: 20, title: "Times Square", videoId: "eJ7ZkQ5TC08", category: "cities", location: "New York City", vibe: "chaos" },
+  { id: 20, title: "Times Square", videoId: "rnXIjl_Rzy4", category: "cities", location: "New York City", vibe: "chaos" },
   { id: 21, title: "Shibuya Crossing", videoId: "gFRtAAmiFbE", category: "cities", location: "Tokyo, Japan", vibe: "zen" },
   { id: 22, title: "Venice Rialto Bridge", videoId: "CMn6xQXuSjI", category: "cities", location: "Venice, Italy", vibe: "chill" },
   { id: 23, title: "Las Vegas Strip", videoId: "mmSKBT_nTfY", category: "cities", location: "Las Vegas, NV", vibe: "chaos" },
