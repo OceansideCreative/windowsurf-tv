@@ -73,10 +73,8 @@ export default function WindowSurf() {
   const [landed, setLanded] = useState(false);
   const [rDisp, setRDisp] = useState(null);
   const [tvAuto, setTvAuto] = useState(false);
-  const [showControls, setShowControls] = useState(false);
   const [streams, setStreams] = useState(BASE_STREAMS.map(s => ({ ...s, liveStatus: 'unknown' })));
   const tmr = useRef(null);
-  const controlsTimer = useRef(null);
 
   useEffect(() => {
     fetch('/api/streams')
@@ -106,15 +104,14 @@ export default function WindowSurf() {
     }, 100 + c * 12);
   }, [livePool]);
 
+  const spinAgain = useCallback(() => {
+    const pool = livePool();
+    const s = pool[Math.floor(Math.random() * pool.length)];
+    if (s) setCur(s);
+  }, [livePool]);
+
   const exitTv = useCallback(() => {
     setView("roulette"); setSpinning(false); setLanded(false); setRDisp(null);
-    clearTimeout(controlsTimer.current);
-  }, []);
-
-  const handleTvMouseMove = useCallback(() => {
-    setShowControls(true);
-    clearTimeout(controlsTimer.current);
-    controlsTimer.current = setTimeout(() => setShowControls(false), 3000);
   }, []);
 
   // TV auto-rotate using live pool
@@ -199,8 +196,7 @@ export default function WindowSurf() {
         .tv{position:fixed;inset:0;background:#000;z-index:100;display:flex;flex-direction:column}
         .tv-p{flex:1;position:relative}
         .tv-p iframe{width:100%;height:100%;border:none}
-        .tv-c{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.9));display:flex;justify-content:space-between;align-items:center;opacity:0;transition:opacity .3s}
-        .tv-c-vis{opacity:1}
+        .tv-c{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.85));display:flex;justify-content:space-between;align-items:center}
         .tv-t{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;color:#fff;letter-spacing:1px}
         .tv-l{font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.4)}
         .tv-bs{display:flex;gap:6px}
@@ -222,10 +218,10 @@ export default function WindowSurf() {
 
         {/* TV MODE */}
         {view === "tv" && cur ? (
-          <div className="tv" onMouseMove={handleTvMouseMove}>
+          <div className="tv">
             <div className="tv-p">
               <iframe src={`https://www.youtube.com/embed/${cur.videoId}?autoplay=1&mute=1&rel=0`} allow="autoplay; encrypted-media" allowFullScreen title={cur.title} />
-              <div className={`tv-c ${showControls ? 'tv-c-vis' : ''}`}>
+              <div className="tv-c">
                 <div><div className="tv-t">{cur.title}</div><div className="tv-l">{cur.location}</div></div>
                 <div className="tv-bs">
                   <button className={`tvb ${tvAuto?'ao':''}`} onClick={()=>setTvAuto(p=>!p)}>{tvAuto?"Auto ON":"Auto-rotate"}</button>
@@ -278,7 +274,7 @@ export default function WindowSurf() {
                     <span className="vb" style={{background:VB[cur.vibe]?.c||"#888"}}>{VB[cur.vibe]?.l}</span>
                   </div>
                   <div className="pa">
-                    <button className="ab spin" onClick={spin}>Spin Again</button>
+                    <button className="ab spin" onClick={spinAgain}>Spin Again</button>
                     <button className="ab tv" onClick={()=>setView("tv")}>Full Screen</button>
                   </div>
                 </div>
