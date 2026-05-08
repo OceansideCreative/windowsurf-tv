@@ -1,42 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from "react";
-
-const STREAMS = [
-  { id: 1, title: "Pipeline, North Shore", videoId: "VI8Wj5EwoRM", category: "beaches", location: "Oahu, Hawaii", vibe: "intense" },
-  { id: 2, title: "Waikiki Beach", videoId: "z_Dn0wGfGSU", category: "beaches", location: "Honolulu, Hawaii", vibe: "chill" },
-  { id: 3, title: "Mavericks", videoId: "SjSF-OmROSM", category: "beaches", location: "Half Moon Bay, CA", vibe: "intense" },
-  { id: 4, title: "Nazaré Big Waves", videoId: "Fsu-1f5184M", category: "beaches", location: "Nazaré, Portugal", vibe: "intense" },
-  { id: 5, title: "Venice Beach Boardwalk", videoId: "98jOtUeM3m8", category: "beaches", location: "Los Angeles, CA", vibe: "chill" },
-  { id: 6, title: "Bondi Beach", videoId: "rBJuAKa29HM", category: "beaches", location: "Sydney, Australia", vibe: "chill" },
-  { id: 7, title: "South Beach Miami", videoId: "uK7tTRls_Yw", category: "beaches", location: "Miami, FL", vibe: "chill" },
-  { id: 8, title: "Hollywood Beach", videoId: "cmkAbDUEoyA", category: "beaches", location: "Hollywood, FL", vibe: "chill" },
-  { id: 9, title: "Surfline Multi-Cam", videoId: "hm9iAviOZ20", category: "beaches", location: "Hawaii, California, Bali", vibe: "chill" },
-  { id: 10, title: "St. Maarten / Maho Beach", videoId: "2IQmpCXbOmM", category: "airports", location: "St. Maarten", vibe: "chaos" },
-  { id: 11, title: "LAX Plane Spotting", videoId: "LRwNFvf5bqo", category: "airports", location: "Los Angeles, CA", vibe: "chill" },
-  { id: 12, title: "Heathrow Airport Live", videoId: "SgpSqiMGPiQ", category: "airports", location: "London, UK", vibe: "chill" },
-  { id: 13, title: "Tokyo Narita Live", videoId: "IkwuwL0k9dE", category: "airports", location: "Tokyo, Japan", vibe: "zen" },
-  { id: 20, title: "Times Square", videoId: "rnXIjl_Rzy4", category: "cities", location: "New York City", vibe: "chaos" },
-  { id: 21, title: "Shibuya Crossing", videoId: "gFRtAAmiFbE", category: "cities", location: "Tokyo, Japan", vibe: "zen" },
-  { id: 22, title: "Venice Rialto Bridge", videoId: "CMn6xQXuSjI", category: "cities", location: "Venice, Italy", vibe: "chill" },
-  { id: 23, title: "Las Vegas Strip", videoId: "mmSKBT_nTfY", category: "cities", location: "Las Vegas, NV", vibe: "chaos" },
-  { id: 24, title: "Dublin Temple Bar", videoId: "fXnFs9Op4HY", category: "cities", location: "Dublin, Ireland", vibe: "chill" },
-  { id: 25, title: "Amsterdam Canals", videoId: "RNsG9YbHDXE", category: "cities", location: "Amsterdam, Netherlands", vibe: "chill" },
-  { id: 30, title: "Africam Watering Hole", videoId: "ydYDqZQpim8", category: "wildlife", location: "South Africa", vibe: "zen" },
-  { id: 31, title: "Monterey Bay Jellyfish", videoId: "NUnJc82ptd4", category: "wildlife", location: "Monterey, CA", vibe: "zen" },
-  { id: 32, title: "Sea Otter Cam", videoId: "abbR-Ttd-cA", category: "wildlife", location: "Monterey, CA", vibe: "chill" },
-  { id: 33, title: "Brown Bears — Katmai", videoId: "0t5Op8OAZ5M", category: "wildlife", location: "Katmai, Alaska", vibe: "intense" },
-  { id: 34, title: "Bald Eagle Nest", videoId: "NIZ1iELe7Xs", category: "wildlife", location: "Cardinal Land, VA", vibe: "zen" },
-  { id: 40, title: "ISS Earth View", videoId: "P9C25Un7xaM", category: "space", location: "Low Earth Orbit", vibe: "zen" },
-  { id: 41, title: "NASA Live", videoId: "21X5lGlDOfg", category: "space", location: "Various", vibe: "zen" },
-  { id: 42, title: "SpaceX Starbase", videoId: "mhJRzQsLZGg", category: "space", location: "Boca Chica, TX", vibe: "intense" },
-  { id: 50, title: "Norway Train Ride", videoId: "3rDjPLvOShM", category: "trains", location: "Norway", vibe: "zen" },
-  { id: 51, title: "Shinkansen Live — Osaka", videoId: "5KzxUq8KXZk", category: "trains", location: "Osaka, Japan", vibe: "zen" },
-  { id: 52, title: "Panama Canal", videoId: "aHbnCTYadJM", category: "trains", location: "Panama", vibe: "chill" },
-  { id: 60, title: "Iceland Northern Lights", videoId: "9GZNvSw3kMg", category: "weird", location: "Reykjavík, Iceland", vibe: "zen" },
-  { id: 61, title: "Kilauea Volcano", videoId: "FVdmnpJ2kM0", category: "weird", location: "Hawaii", vibe: "intense" },
-  { id: 62, title: "Under Antarctic Ice", videoId: "8ZPr_hS9OTQ", category: "weird", location: "McMurdo Sound, Antarctica", vibe: "zen" },
-];
+import { STREAMS as BASE_STREAMS } from "@/data/streams";
 
 const CATS = [
   { id: "beaches", label: "BEACHES & SURF", color: "#00e676", tag: "Salt life forever" },
@@ -120,25 +85,35 @@ export default function WindowSurf() {
   const [rDisp, setRDisp] = useState(null);
   const [tvAuto, setTvAuto] = useState(false);
   const [showFavs, setShowFavs] = useState(false);
+  const [streams, setStreams] = useState(BASE_STREAMS.map(s => ({ ...s, liveStatus: 'unknown' })));
+  const [statusLoaded, setStatusLoaded] = useState(false);
   const tmr = useRef(null);
 
+  // Fetch live status from API on mount
+  useEffect(() => {
+    fetch('/api/streams')
+      .then(r => r.json())
+      .then(data => { setStreams(data.streams); setStatusLoaded(true); })
+      .catch(() => setStatusLoaded(true));
+  }, []);
+
   const play = useCallback((s) => { setCur(s); setView("player"); }, []);
-  const rnd = useCallback(() => { const s = STREAMS[Math.floor(Math.random() * STREAMS.length)]; setCur(s); return s; }, []);
+  const rnd = useCallback(() => { const s = streams[Math.floor(Math.random() * streams.length)]; setCur(s); return s; }, [streams]);
 
   const spin = useCallback(() => {
     setView("roulette"); setSpinning(true); setLanded(false); setRDisp(null);
     let c = 0;
     const iv = setInterval(() => {
-      setRDisp(STREAMS[Math.floor(Math.random() * STREAMS.length)]);
+      setRDisp(streams[Math.floor(Math.random() * streams.length)]);
       c++;
       if (c >= 20) {
         clearInterval(iv);
-        const f = STREAMS[Math.floor(Math.random() * STREAMS.length)];
+        const f = streams[Math.floor(Math.random() * streams.length)];
         setRDisp(f); setSpinning(false); setLanded(true);
         setTimeout(() => { setCur(f); setView("player"); }, 2000);
       }
     }, 100 + c * 12);
-  }, []);
+  }, [streams]);
 
   const togFav = useCallback((s) => {
     setFavs(p => p.find(f => f.id === s.id) ? p.filter(f => f.id !== s.id) : [...p, s]);
@@ -150,21 +125,26 @@ export default function WindowSurf() {
     return () => clearInterval(tmr.current);
   }, [view, tvAuto, rnd]);
 
-  const catS = selCat ? STREAMS.filter(s => s.category === selCat) : [];
+  const catS = selCat ? streams.filter(s => s.category === selCat) : [];
 
-  const Card = ({ s }) => (
-    <div className="sc" onClick={() => play(s)}>
-      <div className="sc-th">
-        <img src={`https://img.youtube.com/vi/${s.videoId}/mqdefault.jpg`} alt={s.title} onError={e => { e.target.style.display = 'none'; }} />
-        <div className="lv"><span className="ld" />LIVE</div>
+  const Card = ({ s }) => {
+    const isLive = s.liveStatus === 'live';
+    const isUnknown = s.liveStatus === 'unknown';
+    return (
+      <div className={`sc ${!isLive && !isUnknown && statusLoaded ? 'sc-dim' : ''}`} onClick={() => play(s)}>
+        <div className="sc-th">
+          <img src={`https://img.youtube.com/vi/${s.videoId}/mqdefault.jpg`} alt={s.title} onError={e => { e.target.style.display = 'none'; }} />
+          {(isLive || isUnknown) && <div className="lv"><span className="ld" />{isLive ? 'LIVE' : '•••'}</div>}
+          {!isLive && !isUnknown && statusLoaded && <div className="lv lv-off">OFFLINE</div>}
+        </div>
+        <div className="sc-i">
+          <div className="sc-t">{s.title}</div>
+          <div className="sc-l">{s.location}</div>
+          <span className="vb" style={{ background: VB[s.vibe]?.c || "#888" }}>{VB[s.vibe]?.l}</span>
+        </div>
       </div>
-      <div className="sc-i">
-        <div className="sc-t">{s.title}</div>
-        <div className="sc-l">{s.location}</div>
-        <span className="vb" style={{ background: VB[s.vibe]?.c || "#888" }}>{VB[s.vibe]?.l}</span>
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <>
@@ -246,8 +226,10 @@ export default function WindowSurf() {
         .sc-th img{width:100%;height:100%;object-fit:cover;transition:transform .3s;opacity:.85}
         .sc:hover .sc-th img{transform:scale(1.03);opacity:1}
         .lv{position:absolute;top:8px;left:8px;background:#ff149390;color:#fff;font-family:'Space Mono',monospace;font-size:9px;padding:2px 8px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:5px;backdrop-filter:blur(4px)}
+        .lv-off{background:#33333390;color:#888}
         .ld{width:5px;height:5px;background:#fff;border-radius:50%;animation:bl 1.2s infinite}
         @keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
+        .sc-dim{opacity:.45;filter:grayscale(.6)}
         .sc-i{padding:10px 12px}
         .sc-t{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#d0d0d8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
         .sc-l{font-family:'Space Mono',monospace;font-size:10px;color:#505060}
@@ -409,7 +391,7 @@ export default function WindowSurf() {
                 <div className="hr">
                   <div className="hr-t">Live windows <span className="ak">from around the world</span></div>
                   <div className="hr-sub">Curated live streams &mdash; leave one on &mdash; go somewhere else</div>
-                  <div className="hr-ct">{STREAMS.length} streams & counting</div>
+                  <div className="hr-ct">{streams.length} streams & counting</div>
                 </div>
                 <div className="aln"/>
 
@@ -435,7 +417,7 @@ export default function WindowSurf() {
                 </div>
 
                 <div className="sx">All Streams</div>
-                <div className="sg">{STREAMS.map(s=><Card key={s.id} s={s}/>)}</div>
+                <div className="sg">{streams.map(s=><Card key={s.id} s={s}/>)}</div>
               </>):(<>
                 <div className="sb"><button className="bk" onClick={()=>setShowFavs(false)}>&larr; back</button>Saved Streams</div>
                 {favs.length===0?(<div className="em"><div className="em-i">[ ]</div><p>No saved streams yet.</p></div>):(
