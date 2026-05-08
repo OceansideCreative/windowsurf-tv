@@ -104,6 +104,12 @@ export default function WindowSurf() {
     }, 100 + c * 12);
   }, [livePool]);
 
+  const spinAgain = useCallback(() => {
+    const pool = livePool();
+    const s = pool[Math.floor(Math.random() * pool.length)];
+    if (s) setCur(s);
+  }, [livePool]);
+
   const exitTv = useCallback(() => {
     setView("roulette"); setSpinning(false); setLanded(false); setRDisp(null);
   }, []);
@@ -172,11 +178,11 @@ export default function WindowSurf() {
         .pt{display:flex;justify-content:space-between;align-items:center;padding:12px 0 14px}
         .pf{width:100%;aspect-ratio:16/9;border:1px solid #1a1a28;overflow:hidden;background:#000;box-shadow:0 0 40px rgba(0,0,0,.7)}
         .pf iframe{width:100%;height:100%;border:none}
-        .pm{margin-top:16px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
+        .pm{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
         .pm-t{font-family:'Archivo Black',sans-serif;font-size:22px;color:#e0e0e8;text-transform:uppercase;letter-spacing:-.5px}
         .pm-l{font-family:'Space Mono',monospace;font-size:11px;color:#505060;margin-top:3px}
         .vb{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;padding:2px 8px;color:#0a0a0f;margin-top:7px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
-        .pa{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+        .pa{display:flex;gap:8px;align-items:center;flex-shrink:0}
         .ab{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;padding:8px 16px;
           border:1px solid #2a2a3a;background:transparent;cursor:pointer;transition:all .15s;
           color:#808090;text-transform:uppercase;letter-spacing:1px}
@@ -218,7 +224,7 @@ export default function WindowSurf() {
         {view === "tv" && cur ? (
           <div className="tv">
             <div className="tv-p">
-              <iframe src={`https://www.youtube.com/embed/${cur.videoId}?autoplay=1&mute=1&rel=0`} allow="autoplay; encrypted-media" allowFullScreen title={cur.title} />
+              <iframe src={`https://www.youtube.com/embed/${cur.videoId}?autoplay=1&mute=1&rel=0&controls=0`} allow="autoplay; encrypted-media" allowFullScreen title={cur.title} />
               <div className="tv-c">
                 <div><div className="tv-t">{cur.title}</div><div className="tv-l">{cur.location}</div></div>
                 <div className="tv-bs">
@@ -272,7 +278,7 @@ export default function WindowSurf() {
                     <span className="vb" style={{background:VB[cur.vibe]?.c||"#888"}}>{VB[cur.vibe]?.l}</span>
                   </div>
                   <div className="pa">
-                    <button className="ab spin" onClick={spin}>Spin Again</button>
+                    <button className="ab spin" onClick={spinAgain}>Spin Again</button>
                     <button className="ab tv" onClick={()=>setView("tv")}>Full Screen</button>
                   </div>
                 </div>
