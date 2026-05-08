@@ -200,6 +200,10 @@ export default function WindowSurf() {
         .tvb.ex:hover{background:#ff149315}
         .tvb.ao{border-color:#00e67660;color:#00e676;background:#00e67610}
 
+        .footer{padding:16px 28px;display:flex;justify-content:flex-end;align-items:center}
+        .marg{font-family:'Space Mono',monospace;font-size:10px;color:#303040;text-decoration:none;letter-spacing:1px;transition:color .2s}
+        .marg:hover{color:#505060}
+
         @media(max-width:600px){
           .logo{padding:16px 18px}
           .lg-w{font-size:18px}.lg-s{font-size:20px}
@@ -277,6 +281,9 @@ export default function WindowSurf() {
           </>
         )}
 
+        <div className="footer">
+          <a className="marg" href="https://venmo.com/thefake_np" target="_blank" rel="noopener noreferrer">🍹 buy me a margarita</a>
+        </div>
       </div></div>
     </>
   );
