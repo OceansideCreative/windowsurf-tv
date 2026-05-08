@@ -69,13 +69,12 @@ function Globe({ spinning, landed }) {
 export default function WindowSurf() {
   const [view, setView] = useState("roulette");
   const [cur, setCur] = useState(null);
-  const [spinning, setSpinning] = useState(true);
+  const [spinning, setSpinning] = useState(false);
   const [landed, setLanded] = useState(false);
   const [rDisp, setRDisp] = useState(null);
   const [tvAuto, setTvAuto] = useState(false);
   const [streams, setStreams] = useState(BASE_STREAMS.map(s => ({ ...s, liveStatus: 'unknown' })));
   const tmr = useRef(null);
-  const hasAutoSpun = useRef(false);
 
   useEffect(() => {
     fetch('/api/streams')
@@ -105,13 +104,9 @@ export default function WindowSurf() {
     }, 100 + c * 12);
   }, [livePool]);
 
-  // Auto-spin once on mount
-  useEffect(() => {
-    if (!hasAutoSpun.current) {
-      hasAutoSpun.current = true;
-      spin();
-    }
-  }, [spin]);
+  const exitTv = useCallback(() => {
+    setView("roulette"); setSpinning(false); setLanded(false); setRDisp(null);
+  }, []);
 
   // TV auto-rotate using live pool
   useEffect(() => {
@@ -226,7 +221,7 @@ export default function WindowSurf() {
                 <div className="tv-bs">
                   <button className={`tvb ${tvAuto?'ao':''}`} onClick={()=>setTvAuto(p=>!p)}>{tvAuto?"Auto ON":"Auto-rotate"}</button>
                   <button className="tvb" onClick={()=>{ const pool=livePool(); const s=pool[Math.floor(Math.random()*pool.length)]; if(s)setCur(s); }}>Next</button>
-                  <button className="tvb ex" onClick={()=>setView("player")}>Exit TV</button>
+                  <button className="tvb ex" onClick={exitTv}>Exit TV</button>
                 </div>
               </div>
             </div>
@@ -241,14 +236,18 @@ export default function WindowSurf() {
             {/* GLOBE ROULETTE */}
             {view === "roulette" && (
               <div className="rou">
-                <div className="rou-lb">{spinning ? "Spinning the globe..." : "Taking you there..."}</div>
+                <div className="rou-lb">
+                  {spinning ? "Spinning the globe..." : landed ? "Taking you there..." : "Spin the globe. Go somewhere."}
+                </div>
                 <Globe spinning={spinning} landed={landed} />
                 <div className="r-info">
                   <div className="rc">{rDisp ? CAT_LABELS[rDisp.category] || "" : ""}</div>
                   <div className="rn">{rDisp?.title || ""}</div>
                   <div className="rlo">{rDisp?.location || ""}</div>
                 </div>
-                <button className="spb" onClick={spin} disabled={spinning}>Spin Again</button>
+                <button className="spb" onClick={spin} disabled={spinning || landed}>
+                  {spinning ? "..." : "Spin"}
+                </button>
               </div>
             )}
 
