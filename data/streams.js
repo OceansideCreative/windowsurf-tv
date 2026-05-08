@@ -32,4 +32,17 @@ export const STREAMS = [
   { id: 60, title: "Iceland Northern Lights",  videoId: "9GZNvSw3kMg", category: "weird",     location: "Reykjavík, Iceland",            vibe: "zen"     },
   { id: 61, title: "Kilauea Volcano",          videoId: "FVdmnpJ2kM0", category: "weird",     location: "Hawaii",                        vibe: "intense" },
   { id: 62, title: "Under Antarctic Ice",      videoId: "8ZPr_hS9OTQ", category: "weird",     location: "McMurdo Sound, Antarctica",     vibe: "zen"     },
+
+  { id: 63, title: "Wild Africa Live",          videoId: "PsJplltf9n8", category: "wildlife",  location: "South Africa / Kenya / Botswana", vibe: "zen"   },
+  { id: 64, title: "Coral City Camera",         videoId: "7i8ARjIeM2k", category: "wildlife",  location: "Biscayne Bay, Miami, FL",        vibe: "zen"     },
+  { id: 65, title: "Forest Wildlife Cam",       videoId: "F0GOOP82094", category: "wildlife",  location: "Scandinavia",                    vibe: "zen"     },
+  { id: 66, title: "Dutch Train Cab Ride",      videoId: "4_BBHXSNvoM", category: "trains",    location: "Netherlands",                    vibe: "chill"   },
+  { id: 67, title: "Flåm Mountain Railway",     videoId: "poK-U3MfcvY", category: "trains",    location: "Flåm, Norway",                   vibe: "zen"     },
+  { id: 68, title: "Southampton Cruise Ships",  videoId: "WxdeHH9T7Yk", category: "trains",    location: "Southampton, UK",                vibe: "chill"   },
+  { id: 69, title: "Montreal Airport Live",     videoId: "C6eSiTr3SE8", category: "airports",  location: "Montreal, Canada",               vibe: "chill"   },
+  { id: 70, title: "Las Vegas Airport Live",    videoId: "fjRCnrEldc4", category: "airports",  location: "Las Vegas, NV",                  vibe: "chill"   },
+  { id: 71, title: "Houston City Cam",          videoId: "hjqbpnigAHA", category: "cities",    location: "Houston, TX",                    vibe: "chill"   },
+  { id: 72, title: "Tokyo Dome City",           videoId: "7XzfKy8CzdY", category: "cities",    location: "Tokyo, Japan",                   vibe: "zen"     },
+  { id: 73, title: "Japan Live Cam",            videoId: "I7g8lOY14DI", category: "cities",    location: "Tokyo, Japan",                   vibe: "zen"     },
+  { id: 74, title: "Centennial Light Bulb",     videoId: "YkkZ57nft3o", category: "weird",     location: "Livermore, CA",                  vibe: "zen"     },
 ];

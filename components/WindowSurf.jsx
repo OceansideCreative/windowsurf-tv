@@ -299,7 +299,7 @@ export default function WindowSurf() {
                 <span className="lg-w">Window</span><span className="lg-s">Surf</span><span className="lg-tv">.TV</span>
               </div>
               <button className="thm" onClick={()=>setTheme(t=>t==='dark'?'light':'dark')} title="Toggle theme">
-                {light ? '☾' : '☀'}
+                {light ? '☾' : '☼'}
               </button>
             </div>
 
