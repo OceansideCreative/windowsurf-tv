@@ -1,6 +1,6 @@
-'use client';
+import dynamic from 'next/dynamic';
 
-import WindowSurf from '@/components/WindowSurf';
+const WindowSurf = dynamic(() => import('@/components/WindowSurf'), { ssr: false });
 
 export default function Home() {
   return <WindowSurf />;
