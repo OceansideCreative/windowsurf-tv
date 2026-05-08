@@ -99,7 +99,7 @@ export default function WindowSurf() {
         clearInterval(iv);
         const f = pool[Math.floor(Math.random() * pool.length)];
         setRDisp(f); setSpinning(false); setLanded(true);
-        setTimeout(() => { setCur(f); setView("player"); }, 2000);
+        setTimeout(() => { setCur(f); setView("tv"); }, 2000);
       }
     }, 100 + c * 12);
   }, [livePool]);
