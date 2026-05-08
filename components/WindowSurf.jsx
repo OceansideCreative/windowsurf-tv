@@ -397,7 +397,7 @@ export default function WindowSurf() {
 
                 <div className="sx">Quick Picks</div>
                 <div className="pg">
-                  {[10,21,40,1,30,52].map(id=>STREAMS.find(s=>s.id===id)).filter(Boolean).map(s=>(
+                  {[10,21,40,1,30,52].map(id=>streams.find(s=>s.id===id)).filter(Boolean).map(s=>(
                     <div key={s.id} className="pk" style={{"--c":CATS.find(c=>c.id===s.category)?.color}} onClick={()=>play(s)}>
                       <div className="pk-n">{s.title}</div>
                       <div className="pk-l">{s.location}</div>
@@ -411,7 +411,7 @@ export default function WindowSurf() {
                     <div key={cat.id} className="cc" style={{"--c":cat.color}} onClick={()=>{setSelCat(cat.id);setView("category")}}>
                       <div className="cc-l">{cat.label}</div>
                       <div className="cc-tg">{cat.tag}</div>
-                      <div className="cc-n">{STREAMS.filter(s=>s.category===cat.id).length}</div>
+                      <div className="cc-n">{streams.filter(s=>s.category===cat.id).length}</div>
                     </div>
                   ))}
                 </div>
