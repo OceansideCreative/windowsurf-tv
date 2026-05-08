@@ -174,11 +174,11 @@ export default function WindowSurf() {
         .spb:disabled{opacity:.25;cursor:not-allowed}
 
         /* PLAYER */
-        .pw{flex:1;display:flex;flex-direction:column;padding:0 24px 24px;max-width:1000px;width:100%;margin:0 auto}
-        .pt{display:flex;justify-content:space-between;align-items:center;padding:12px 0 14px}
-        .pf{width:100%;aspect-ratio:16/9;border:1px solid #1a1a28;overflow:hidden;background:#000;box-shadow:0 0 40px rgba(0,0,0,.7)}
+        .pw{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 24px 24px;max-width:1000px;width:100%;margin:0 auto}
+        .pt{display:flex;justify-content:space-between;align-items:center;padding:12px 0 14px;flex-shrink:0}
+        .pf{flex:1;min-height:0;border:1px solid #1a1a28;overflow:hidden;background:#000;box-shadow:0 0 40px rgba(0,0,0,.7)}
         .pf iframe{width:100%;height:100%;border:none}
-        .pm{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+        .pm{margin-top:16px;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:12px}
         .pm-t{font-family:'Archivo Black',sans-serif;font-size:22px;color:#e0e0e8;text-transform:uppercase;letter-spacing:-.5px}
         .pm-l{font-family:'Space Mono',monospace;font-size:11px;color:#505060;margin-top:3px}
         .vb{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;padding:2px 8px;color:#0a0a0f;margin-top:7px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
@@ -269,7 +269,7 @@ export default function WindowSurf() {
                   </div>
                 </div>
                 <div className="pf">
-                  <iframe src={`https://www.youtube.com/embed/${cur.videoId}?autoplay=1&mute=1&rel=0`} allow="autoplay; encrypted-media" allowFullScreen title={cur.title} />
+                  <iframe src={`https://www.youtube.com/embed/${cur.videoId}?autoplay=1&mute=1&rel=0&controls=0`} allow="autoplay; encrypted-media" title={cur.title} />
                 </div>
                 <div className="pm">
                   <div>
