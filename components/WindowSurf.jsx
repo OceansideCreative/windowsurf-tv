@@ -104,12 +104,6 @@ export default function WindowSurf() {
     }, 100 + c * 12);
   }, [livePool]);
 
-  const spinAgain = useCallback(() => {
-    const pool = livePool();
-    const s = pool[Math.floor(Math.random() * pool.length)];
-    if (s) setCur(s);
-  }, [livePool]);
-
   const exitTv = useCallback(() => {
     setView("roulette"); setSpinning(false); setLanded(false); setRDisp(null);
   }, []);
@@ -274,7 +268,7 @@ export default function WindowSurf() {
                     <span className="vb" style={{background:VB[cur.vibe]?.c||"#888"}}>{VB[cur.vibe]?.l}</span>
                   </div>
                   <div className="pa">
-                    <button className="ab spin" onClick={spinAgain}>Spin Again</button>
+                    <button className="ab spin" onClick={spin}>Spin Again</button>
                     <button className="ab tv" onClick={()=>setView("tv")}>Full Screen</button>
                   </div>
                 </div>
