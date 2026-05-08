@@ -11,6 +11,7 @@ const STREAMS = [
   { id: 6, title: "Bondi Beach", videoId: "rBJuAKa29HM", category: "beaches", location: "Sydney, Australia", vibe: "chill" },
   { id: 7, title: "South Beach Miami", videoId: "uK7tTRls_Yw", category: "beaches", location: "Miami, FL", vibe: "chill" },
   { id: 8, title: "Hollywood Beach", videoId: "cmkAbDUEoyA", category: "beaches", location: "Hollywood, FL", vibe: "chill" },
+  { id: 9, title: "Surfline Multi-Cam", videoId: "hm9iAviOZ20", category: "beaches", location: "Hawaii, California, Bali", vibe: "chill" },
   { id: 10, title: "St. Maarten / Maho Beach", videoId: "2IQmpCXbOmM", category: "airports", location: "St. Maarten", vibe: "chaos" },
   { id: 11, title: "LAX Plane Spotting", videoId: "LRwNFvf5bqo", category: "airports", location: "Los Angeles, CA", vibe: "chill" },
   { id: 12, title: "Heathrow Airport Live", videoId: "SgpSqiMGPiQ", category: "airports", location: "London, UK", vibe: "chill" },
